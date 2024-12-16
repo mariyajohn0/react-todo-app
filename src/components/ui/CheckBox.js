@@ -1,23 +1,20 @@
-import React, {Component} from 'react';
+import React from 'react';
 
-class CheckBox extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            checked: this.props.checked
-        };
-    }
+class CheckBox extends React.Component {
+  handleChange(e) {
+    const { checked } = e.target;
+    this.props.onChange(checked); // Notify parent about the status change
+  }
 
-    handleChange(e) {
-        const {checked} = e.target;
-
-        this.setState({checked});
-        this.props.onChange(checked);
-    }
-
-    render() {
-        return (<input type="checkbox" checked={this.state.checked} onChange={this.handleChange.bind(this)}/>);
-    }
+  render() {
+    return (
+      <input
+        type="checkbox"
+        checked={this.props.checked}
+        onChange={this.handleChange.bind(this)}
+      />
+    );
+  }
 }
 
 export default CheckBox;
