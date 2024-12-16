@@ -58,9 +58,20 @@ function getNextId() {
  * @return {Array}
  */
 export function addToList(list, data) {
+    // Ensure text is always a string
     let item = Object.assign({
-        id: getNextId()
-    }, data);
+      id: getNextId(),
+      priority: 'Medium',
+      text: ''  // Default to empty string if no text is provided
+    }, {
+      ...data,
+      text: typeof data.text === 'object' && data.text !== null ? data.text.text : data.text || '' // Handle object or string
+    });
 
     return list.concat([item]);
 }
+
+  
+  
+
+

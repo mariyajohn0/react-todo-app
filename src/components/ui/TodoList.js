@@ -13,6 +13,7 @@ export default function TodoList(props) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
   const [newStatus, setNewStatus] = useState(false);
+  const [newPriority, setNewPriority] = useState('Medium'); // State for managing priority selection
 
   const activeItemCount = applyFilter(list, FILTER_ACTIVE).length;
   const items = search(applyFilter(list, filter), query);
@@ -25,20 +26,37 @@ export default function TodoList(props) {
 
   const handleConfirm = () => {
     changeStatus(selectedTask.id, newStatus);
-    setIsDialogOpen(false); // Close the dialog after confirmation
-    setSelectedTask(null); // Reset selected task
+    setIsDialogOpen(false);
+    setSelectedTask(null);
   };
 
   const handleCancel = () => {
-    setIsDialogOpen(false); // Close the dialog without any changes
-    setSelectedTask(null); // Reset selected task
+    setIsDialogOpen(false);
+    setSelectedTask(null);
   };
 
+  // Handle adding a new task with priority
+
+  const handleAddNewTask = (taskText, priority) => {
+    if (typeof taskText === 'string' && taskText.trim() !== '') {
+      addNew({
+        text: taskText,
+        completed: false,
+        priority: priority 
+      });
+    } else {
+      console.error("Task text is not a valid string:", taskText);
+    }
+  };
+  
+  
   return (
     <div className="container">
       <div className="row">
         <div className="todolist">
-          <Header {...{ addNew, mode, query, setSearchQuery }} />
+          <Header 
+            {...{ addNew: handleAddNewTask, mode, query, setSearchQuery }} 
+          />
           <FilteredList
             {...{
               items,
@@ -49,8 +67,6 @@ export default function TodoList(props) {
             {...{ activeItemCount, filter, changeFilter, mode, changeMode }}
           />
           <Info {...{ mode }} />
-
-          {/* Render the confirmation dialog */}
           <ConfirmationDialog
             isOpen={isDialogOpen}
             onConfirm={handleConfirm}

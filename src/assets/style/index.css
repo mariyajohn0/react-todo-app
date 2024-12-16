@@ -166,3 +166,19 @@ footer .buttons {
     color: black;
   }
   
+
+  .input-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .add-todo {
+    flex-grow: 1;
+  }
+  
+  .priority-select {
+    margin-left: 10px;
+    width: 100px; /* Adjust width as needed */
+  }
+  
